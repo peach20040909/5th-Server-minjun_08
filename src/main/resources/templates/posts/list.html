@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head><meta charset="UTF-8"><title>게시판</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📋 게시판</h1>
+    <div class="auth">
+      <span th:if="${session.loginMemberNickname != null}">
+        <b th:text="${session.loginMemberNickname}">닉네임</b>님
+        <form th:action="@{/logout}" method="post" style="display:inline">
+          <button type="submit" class="gray">로그아웃</button>
+        </form>
+      </span>
+      <span th:unless="${session.loginMemberNickname != null}">
+        <a href="/login">로그인</a> <a href="/signup">회원가입</a>
+      </span>
+    </div>
+  </div>
+
+  <form th:action="@{/posts}" method="get" class="search">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="제목/내용 검색">
+    <button type="submit">검색</button>
+  </form>
+
+  <table>
+    <thead><tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th></tr></thead>
+    <tbody>
+      <tr th:each="post : ${posts}">
+        <td th:text="${post.id()}">1</td>
+        <td><a th:href="@{/posts/{id}(id=${post.id()})}" th:text="${post.title()}">제목</a></td>
+        <td th:text="${post.writerNickname()}">작성자</td>
+        <td th:text="${#temporals.format(post.createdAt(), 'yyyy-MM-dd HH:mm')}">날짜</td>
+      </tr>
+      <tr th:if="${posts.isEmpty()}"><td colspan="4" style="text-align:center;color:#999">게시글이 없습니다.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="actions">
+    <a th:if="${session.loginMemberId != null}" href="/posts/new"><button>글쓰기</button></a>
+    <a th:unless="${session.loginMemberId != null}" href="/login"><button class="gray">로그인 후 글쓰기</button></a>
+  </div>
+</div>
+</body>
+</html>
