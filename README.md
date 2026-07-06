@@ -1,10 +1,10 @@
-# Board (HTML + 로그인) - 7주차
+# Board (HTML + 로그인 + 페이징) - 8주차
 
 스프링 부트 + JPA + Thymeleaf로 만든 **로그인 기능이 있는 게시판**입니다.
 6주차의 API 게시판을, 실제 화면(HTML)과 회원/로그인까지 갖춘 웹 게시판으로 발전시켰습니다.
 
 ## 기술 스택
-Java 17 · Spring Boot 3.3 · Spring Data JPA · Thymeleaf · H2 · BCrypt
+Java 17 · Spring Boot 3.3 · Spring Data JPA · Thymeleaf · H2 · BCrypt · Pagination
 
 ## 실행
 1. IntelliJ로 폴더 열고 `BoardApplication` 실행
@@ -36,3 +36,7 @@ Java 17 · Spring Boot 3.3 · Spring Data JPA · Thymeleaf · H2 · BCrypt
 
 ## ERD
 회원(MEMBER) 1 : N 게시글(POST). POST가 member_id(FK)로 MEMBER를 참조.
+
+## 8주차 추가 기능 
+- 게시글 목록 페이징 (한 페이지 10개, Spring Data JPA의 Page/Pageable)
+- 브랜치 전략(feature 브랜치)로 작업 후 merge
