@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+ import org.springframework.data.domain.Page;
+ import org.springframework.data.domain.PageRequest;
+ import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequestMapping("/posts")
@@ -19,9 +22,17 @@ public class PostController {
 
     // 목록 (+ 검색)
     @GetMapping
-    public String list(@RequestParam(required = false) String keyword, Model model) {
+    public String list(@RequestParam(required = false) String keyword,
+                       @RequestParam(defaultValue = "0") int page,   // 페이지 번호(0부터 시작)
+                       Model model) {
+        Pageable pageable = PageRequest.of(page, 10);  // 한 페이지에 10개
         boolean searching = keyword != null && !keyword.isBlank();
-        model.addAttribute("posts", searching ? postService.search(keyword) : postService.findAll());
+        Page<PostView> result = searching
+                ? postService.search(keyword, pageable)
+                : postService.findAll(pageable);
+
+        model.addAttribute("posts", result.getContent()); // 이번 페이지 글 목록
+        model.addAttribute("page", result);               // 페이징 정보 전체
         model.addAttribute("keyword", keyword);
         return "posts/list";
     }

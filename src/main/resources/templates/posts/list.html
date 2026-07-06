@@ -35,7 +35,14 @@
       <tr th:if="${posts.isEmpty()}"><td colspan="4" style="text-align:center;color:#999">게시글이 없습니다.</td></tr>
     </tbody>
   </table>
-
+  <div class="pagination" th:if="${page.totalPages > 0}">
+    <a th:if="${!page.first}" th:href="@{/posts(page=${page.number - 1}, keyword=${keyword})}">◀</a>
+    <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+       th:href="@{/posts(page=${i}, keyword=${keyword})}"
+       th:text="${i + 1}"
+       th:classappend="${i == page.number} ? 'current' : ''">1</a>
+    <a th:if="${!page.last}" th:href="@{/posts(page=${page.number + 1}, keyword=${keyword})}">▶</a>
+  </div>
   <div class="actions">
     <a th:if="${session.loginMemberId != null}" href="/posts/new"><button>글쓰기</button></a>
     <a th:unless="${session.loginMemberId != null}" href="/login"><button class="gray">로그인 후 글쓰기</button></a>

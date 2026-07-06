@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +27,12 @@ public class PostService {
         return postRepository.save(post).getId();
     }
 
-    public List<PostView> findAll() {
-        return postRepository.findAllByOrderByIdDesc().stream().map(PostView::from).toList();
+    public Page<PostView> findAll(Pageable pageable) {
+        return postRepository.findAllByOrderByIdDesc(pageable).map(PostView::from);
     }
 
-    public List<PostView> search(String keyword) {
-        return postRepository.search(keyword).stream().map(PostView::from).toList();
+    public Page<PostView> search(String keyword, Pageable pageable) {
+        return postRepository.search(keyword, pageable).map(PostView::from);
     }
 
     public PostView findOne(Long id) {

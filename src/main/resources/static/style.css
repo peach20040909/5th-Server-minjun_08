@@ -25,3 +25,6 @@ button.danger { background: #e05555; }
 .error { color: #e05555; font-size: 13px; margin-top: 5px; }
 .content-box { white-space: pre-wrap; line-height: 1.7; padding: 18px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin: 16px 0; }
 .meta { color: #999; font-size: 13px; }
+.pagination { margin-top: 20px; text-align: center; }
+.pagination a { display: inline-block; padding: 6px 11px; margin: 0 2px; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #555; }
+.pagination a.current { background: #3b6cff; color: #fff; border-color: #3b6cff; }
